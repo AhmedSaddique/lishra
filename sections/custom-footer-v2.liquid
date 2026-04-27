@@ -1,0 +1,424 @@
+{%- style -%}
+  {%- assign accent_rgb = section.settings.accent_color | color_to_rgb | remove: 'rgb(' | remove: ')' | remove: ' ' -%}
+  .custom-footer-v2 {
+    --cf-bg: {{ section.settings.bg_color }};
+    --cf-text: {{ section.settings.text_color }};
+    --cf-accent: {{ section.settings.accent_color }};
+    --cf-accent-rgb: {{ accent_rgb }};
+    --cf-border: {{ section.settings.border_color }};
+    background-color: var(--cf-bg);
+    color: var(--cf-text);
+    padding: 80px 0 40px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .custom-footer-v2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cf-border), transparent);
+  }
+
+  .cf-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Main Grid */
+  .cf-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 60px;
+    margin-bottom: 80px;
+  }
+
+  .cf-brand__logo {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .cf-brand__logo img {
+    max-height: 40px;
+    width: auto;
+  }
+
+  .cf-brand__desc {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.7;
+    margin-bottom: 32px;
+    max-width: 320px;
+  }
+
+  .cf-socials {
+    display: flex;
+    gap: 16px;
+  }
+
+  .cf-social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cf-text);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--cf-border);
+    text-decoration: none;
+  }
+
+  .cf-social-link:hover {
+    background: var(--cf-accent);
+    color: white;
+    border-color: var(--cf-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(var(--cf-accent-rgb), 0.2);
+  }
+
+  .cf-social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cf-column__title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .cf-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cf-menu__item {
+    margin-bottom: 12px;
+  }
+
+  .cf-menu__link {
+    color: var(--cf-text);
+    text-decoration: none;
+    font-size: 15px;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+
+  .cf-menu__link:hover {
+    opacity: 1;
+    color: var(--cf-accent);
+    padding-left: 8px;
+  }
+
+  /* Bottom Bar */
+  .cf-bottom {
+    border-top: 1px solid var(--cf-border);
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .cf-copyright {
+    font-size: 14px;
+    opacity: 0.5;
+  }
+
+  .cf-bottom__right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .cf-policies {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cf-policy__link {
+    font-size: 14px;
+    opacity: 0.5;
+    text-decoration: none;
+    color: var(--cf-text);
+    transition: opacity 0.2s ease;
+  }
+
+  .cf-policy__link:hover {
+    opacity: 1;
+  }
+
+  .cf-payments {
+    display: flex;
+    gap: 12px;
+  }
+
+  .cf-payment-icon {
+    height: 24px;
+    width: auto;
+    opacity: 0.8;
+    filter: grayscale(1);
+    transition: all 0.3s ease;
+  }
+
+  .cf-payment-icon:hover {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .cf-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cf-container {
+      padding: 0 24px;
+    }
+    .cf-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .cf-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+    .cf-bottom__right {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .cf-policies {
+      justify-content: center;
+    }
+  }
+{%- endstyle -%}
+
+<footer class="custom-footer-v2">
+  <div class="cf-container">
+    <div class="cf-grid">
+      <!-- Brand Column -->
+      <div class="cf-brand">
+        <a href="{{ routes.root_url }}" class="cf-brand__logo">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" loading="lazy">
+          {% else %}
+            <span style="font-size: 24px; font-weight: 800;">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+        <div class="cf-brand__desc">
+          {{ section.settings.brand_description }}
+        </div>
+        <div class="cf-socials">
+          {% if settings.social_facebook_link != blank %}
+            <a href="{{ settings.social_facebook_link }}" class="cf-social-link"><svg viewBox="0 0 20 20">{% render 'icon', icon: 'facebook' %}</svg></a>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <a href="{{ settings.social_instagram_link }}" class="cf-social-link"><svg viewBox="0 0 20 20">{% render 'icon', icon: 'instagram' %}</svg></a>
+          {% endif %}
+          {% if settings.social_twitter_link != blank %}
+            <a href="{{ settings.social_twitter_link }}" class="cf-social-link"><svg viewBox="0 0 20 20">{% render 'icon', icon: 'twitter' %}</svg></a>
+          {% endif %}
+          {% if settings.social_pinterest_link != blank %}
+            <a href="{{ settings.social_pinterest_link }}" class="cf-social-link"><svg viewBox="0 0 20 20">{% render 'icon', icon: 'pinterest' %}</svg></a>
+          {% endif %}
+          {% if settings.social_tiktok_link != blank %}
+            <a href="{{ settings.social_tiktok_link }}" class="cf-social-link"><svg viewBox="0 0 20 20">{% render 'icon', icon: 'tiktok' %}</svg></a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Menus -->
+      {% for block in section.blocks %}
+        {% if block.type == 'menu' %}
+          <div class="cf-column" {{ block.shopify_attributes }}>
+            <h3 class="cf-column__title">{{ block.settings.title }}</h3>
+            <ul class="cf-menu">
+              {% for link in block.settings.menu.links %}
+                <li class="cf-menu__item">
+                  <a href="{{ link.url }}" class="cf-menu__link">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <!-- Contact Info -->
+      <div class="cf-column">
+        <h3 class="cf-column__title">Contact Us</h3>
+        <ul class="cf-menu">
+          {% if section.settings.address != blank %}
+            <li class="cf-menu__item">
+              <span class="cf-menu__link" style="opacity: 0.7; cursor: default;">{{ section.settings.address }}</span>
+            </li>
+          {% endif %}
+          {% if section.settings.email != blank %}
+            <li class="cf-menu__item">
+              <a href="mailto:{{ section.settings.email }}" class="cf-menu__link">{{ section.settings.email }}</a>
+            </li>
+          {% endif %}
+          {% if section.settings.phone != blank %}
+            <li class="cf-menu__item">
+              <a href="tel:{{ section.settings.phone }}" class="cf-menu__link">{{ section.settings.phone }}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="cf-bottom">
+      <div class="cf-copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </div>
+      
+      <div class="cf-bottom__right">
+        <ul class="cf-policies">
+          {%- for policy in shop.policies -%}
+            {%- if policy != blank -%}
+              <li><a href="{{ policy.url }}" class="cf-policy__link">{{ policy.title }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+
+        {% if section.settings.show_payment_icons %}
+          <div class="cf-payments">
+            {%- for type in shop.enabled_payment_types -%}
+              {{ type | payment_type_svg_tag: class: 'cf-payment-icon' }}
+            {%- endfor -%}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Custom Footer V2",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand Description",
+      "default": "Elevate your space with our premium collection of blinds and interior solutions. Quality meets style in every corner."
+    },
+    {
+      "type": "header",
+      "content": "Contact Info"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Address",
+      "default": "123 Interior Way, Design District"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "hello@yourbrand.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone Number",
+      "default": "+1 (555) 000-0000"
+    },
+    {
+      "type": "header",
+      "content": "Payment Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column Title",
+          "default": "Quick Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Footer V2",
+      "blocks": [
+        {
+          "type": "menu",
+          "settings": {
+            "title": "Shop"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "title": "Support"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

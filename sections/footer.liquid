@@ -10,6 +10,8 @@
       assign products_collection = section.settings.products_collection
       assign pages_menu = section.settings.pages_menu
 
+      assign quick_menu = pages_menu | default: quick_links_menu
+
       assign logo_image = settings.logo
       if section.settings.use_inverse_logo and settings.logo_inverse
         assign logo_image = settings.logo_inverse
@@ -20,10 +22,28 @@
       class="modern-footer spacing-style"
       style="{% render 'spacing-style', settings: section.settings %}"
     >
-      {% if quick_links_menu != blank and quick_links_menu.links.size > 0 %}
+      {% if quick_menu != blank and quick_menu.links.size > 0 %}
         <nav class="modern-footer__quick" aria-label="{{ section.settings.quick_links_label | escape }}">
           <div class="modern-footer__quick-inner">
-            {% for link in quick_links_menu.links %}
+            {% if section.settings.quick_show_logo %}
+              <a class="modern-footer__quick-brand" href="{{ routes.root_url }}">
+                {% if logo_image %}
+                  {{
+                    logo_image
+                    | image_url: width: 360
+                    | image_tag:
+                      widths: '120, 180, 240, 360',
+                      alt: shop.name,
+                      class: 'modern-footer__quick-logo',
+                      loading: 'lazy'
+                  }}
+                {% else %}
+                  <span class="modern-footer__quick-brand-text">{{ shop.name }}</span>
+                {% endif %}
+              </a>
+            {% endif %}
+
+            {% for link in quick_menu.links %}
               <a class="modern-footer__quick-link" href="{{ link.url }}">{{ link.title }}</a>
             {% endfor %}
           </div>
@@ -239,6 +259,36 @@
 
   .modern-footer__quick-inner::-webkit-scrollbar {
     display: none;
+  }
+
+  .modern-footer__quick-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: var(--color-foreground);
+    flex: 0 0 auto;
+  }
+
+  .modern-footer__quick-brand:hover {
+    border-color: rgb(var(--color-border-rgb) / var(--opacity-35));
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-4));
+  }
+
+  .modern-footer__quick-logo {
+    width: 110px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  .modern-footer__quick-brand-text {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    letter-spacing: -0.02em;
   }
 
   .modern-footer__quick-link {
@@ -466,7 +516,7 @@
           "label": "Modern 3-column"
         }
       ],
-      "default": "blocks"
+      "default": "modern"
     },
     {
       "type": "header",
@@ -483,6 +533,12 @@
       "id": "quick_links_label",
       "label": "Quick links label",
       "default": "Quick links"
+    },
+    {
+      "type": "checkbox",
+      "id": "quick_show_logo",
+      "label": "Show logo in quick links row",
+      "default": true
     },
     {
       "type": "link_list",

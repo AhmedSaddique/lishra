@@ -25,7 +25,7 @@
           "type": "menu",
           "settings": {
             "title": "Support",
-            "menu": "footer"
+            "menu": "quick-link"
           }
         }
       },
@@ -39,7 +39,7 @@
         "accent_color": "#000000",
         "border_color": "#0000001a",
         "brand_description": "Elevate your space with our premium collection of blinds and interior solutions. Quality meets style in every corner.",
-        "address": "123 Interior Way, Design District",
+        "address": "",
         "email": "hello@yourbrand.com",
         "phone": "+1 (555) 000-0000",
         "show_payment_icons": true

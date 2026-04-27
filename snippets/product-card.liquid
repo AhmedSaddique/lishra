@@ -76,6 +76,8 @@
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       background: #fff;
+      display: flex;
+      flex-direction: column;
     }
     .modern-unique-card:hover {
       transform: translateY(-5px);
@@ -83,6 +85,30 @@
     }
     .modern-unique-card .product-card__content {
       padding: 15px !important;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Force consistent aspect ratio without cropping the product */
+    .modern-unique-card .card-gallery {
+      width: 100%;
+      aspect-ratio: 1 / 1 !important; /* Force square aspect ratio */
+      position: relative;
+      background: #f9f9f9; /* Light background for 'contain' areas */
+    }
+    .modern-unique-card .product-media, 
+    .modern-unique-card .product-media__image,
+    .modern-unique-card .card-gallery img,
+    .modern-unique-card .slideshow-slide {
+      height: 100% !important;
+      width: 100% !important;
+      object-fit: contain !important; /* Show the FULL image */
+      padding: 10px; /* Give some breathing room so it doesn't touch edges */
+      aspect-ratio: auto !important;
+    }
+    .modern-unique-card .product-title {
+      margin-top: 10px;
+      font-weight: 600;
     }
   </style>
   <a

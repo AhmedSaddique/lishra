@@ -155,6 +155,23 @@
       margin-top: 10px;
       font-weight: 600;
     }
+
+    @media screen and (max-width: 749px) {
+      .modern-unique-card {
+        height: 200px !important;
+      }
+      .modern-unique-card .card-gallery {
+        height: 120px !important;
+        padding: 8px !important;
+      }
+      .modern-unique-card .product-card__content {
+        padding: 8px 10px !important;
+      }
+      .modern-unique-card .product-title {
+        font-size: 13px !important;
+        margin-top: 4px !important;
+      }
+    }
   </style>
   <a
     id="{{ product_card_id | md5 }}"

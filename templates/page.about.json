@@ -67,6 +67,7 @@
           "static": true,
           "settings": {
             "media_type": "image",
+            "image": "shopify://shop_images/IMG-20250826-WA0004_jpg.jpg",
             "link": "",
             "video_loop": true,
             "video_autoplay": false,

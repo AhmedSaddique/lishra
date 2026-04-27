@@ -1,18 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "custom_newsletter_v2": {
-      "type": "custom-newsletter-v2",
-      "settings": {
-        "bg_color": "#ffffff",
-        "text_color": "#000000",
-        "accent_color": "#000000",
-        "border_color": "rgba(0,0,0,0.1)",
-        "newsletter_title": "Join the Elite",
-        "newsletter_subtitle": "Subscribe to receive updates, access to exclusive deals, and more."
-      }
-    },
     "custom_footer_v2": {
       "type": "custom-footer-v2",
       "blocks": {
@@ -27,7 +25,7 @@
           "type": "menu",
           "settings": {
             "title": "Support",
-            "menu": "footer"
+            "menu": "quick-link"
           }
         }
       },
@@ -39,17 +37,17 @@
         "bg_color": "#ffffff",
         "text_color": "#000000",
         "accent_color": "#000000",
-        "border_color": "rgba(0,0,0,0.1)",
-        "brand_description": "Elevate your space with our premium collection of blinds and interior solutions. Quality meets style in every corner.",
-        "address": "123 Interior Way, Design District",
-        "email": "hello@yourbrand.com",
-        "phone": "+1 (555) 000-0000",
+        "border_color": "#0000001a",
+        "logo": "shopify://shop_images/logo.jpg",
+        "brand_description": "Lishra Beauty Cream helps moisturise, soften, and refresh your skin for a smooth, radiant everyday glow.",
+        "address": "",
+        "email": "hasnainjutt717273@gmail.com",
+        "phone": "",
         "show_payment_icons": true
       }
     }
   },
   "order": [
-    "custom_newsletter_v2",
     "custom_footer_v2"
   ]
 }

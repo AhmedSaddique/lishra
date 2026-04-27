@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "faq_content": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style=\"max-width:800px; margin: 0 auto; padding: 50px 20px;\"><h2>Frequently Asked Questions</h2><br><h3>What are the delivery charges?</h3><p>We charge a flat rate of Rs. 250 for all shipments.</p><br><h3>Are your products safe?</h3><p>Yes, all our creams are made with organic and natural ingredients.</p><br><h3>How long does delivery take?</h3><p>Delivery usually takes 3-5 business days.</p></div>",
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq_content"
+  ]
+}

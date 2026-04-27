@@ -55,7 +55,7 @@
 %}
 
 <product-card
-  class="product-card size-style"
+  class="product-card size-style modern-unique-card"
   style="{% render 'size-style', settings: block_settings %}"
   data-product-id="{{ product.id }}"
   id="product-card-{{ block.id }}"
@@ -69,6 +69,22 @@
     data-placeholder="true"
   {% endif %}
 >
+  <style>
+    .modern-unique-card {
+      transition: all 0.3s ease;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      background: #fff;
+    }
+    .modern-unique-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(233, 30, 99, 0.15); /* Pink shadow to match logo */
+    }
+    .modern-unique-card .product-card__content {
+      padding: 15px !important;
+    }
+  </style>
   <a
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}

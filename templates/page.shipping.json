@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "shipping_info": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style=\"text-align:center; padding: 50px;\"><h2>Shipping Policy</h2><p>We deliver all across Pakistan. A standard shipping charge of <strong>Rs. 250</strong> is applied to all orders.</p></div>",
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "shipping_info"
+  ]
+}

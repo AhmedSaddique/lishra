@@ -460,7 +460,7 @@
         "text_zDAWaC": {
           "type": "text",
           "settings": {
-            "text": "<p>Made with care and unconditionally loved by our customers, this signature bestseller exceeds all expectations.</p>",
+            "text": "<ul><li><strong>Fade Dark Spots:</strong> Targets hyperpigmentation for an even skin tone.</li><li><strong>Skin Repair:</strong> Helps revitalize damaged skin cells.</li><li><strong>Daily Protection:</strong> Acts as a barrier against environmental pollutants.</li><li><strong>Visible Results:</strong> See a noticeable difference in skin clarity within just a few weeks of regular use.</li></ul>",
             "width": "fit-content",
             "max_width": "narrow",
             "alignment": "left",

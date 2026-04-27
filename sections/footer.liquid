@@ -4,46 +4,168 @@
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
 >
-  {% liquid
-    assign total_blocks = section.blocks.size
+  {% if section.settings.layout_style == 'modern' %}
+    {% liquid
+      assign quick_links_menu = section.settings.quick_links_menu
+      assign products_collection = section.settings.products_collection
+      assign pages_menu = section.settings.pages_menu
 
-    # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
+      assign logo_image = settings.logo
+      if section.settings.use_inverse_logo and settings.logo_inverse
+        assign logo_image = settings.logo_inverse
+      endif
+    %}
 
-    # Calculate last row counts using modulo arithmetic
-    # last_row_count = (total_blocks - 1) % N + 1
-    assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
-    assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
+    <div
+      class="modern-footer spacing-style"
+      style="{% render 'spacing-style', settings: section.settings %}"
+    >
+      {% if quick_links_menu != blank and quick_links_menu.links.size > 0 %}
+        <nav class="modern-footer__quick" aria-label="{{ section.settings.quick_links_label | escape }}">
+          <div class="modern-footer__quick-inner">
+            {% for link in quick_links_menu.links %}
+              <a class="modern-footer__quick-link" href="{{ link.url }}">{{ link.title }}</a>
+            {% endfor %}
+          </div>
+        </nav>
+      {% endif %}
 
-    # Check if there are orphaned elements (single item in last row)
-    assign has_isolated_grid_item_desktop = false
-    assign has_isolated_grid_item_tablet = false
+      <div class="modern-footer__grid">
+        <div class="modern-footer__col modern-footer__brand">
+          <a class="modern-footer__brand-link" href="{{ routes.root_url }}">
+            {% if logo_image %}
+              {{
+                logo_image
+                | image_url: width: 800
+                | image_tag:
+                  widths: '120, 180, 240, 360, 480, 600, 800',
+                  alt: shop.name,
+                  class: 'modern-footer__logo',
+                  loading: 'lazy'
+              }}
+            {% else %}
+              <span class="modern-footer__brand-text">{{ shop.name }}</span>
+            {% endif %}
+          </a>
 
-    if total_blocks > 4 and last_row_count == 1
-      assign has_isolated_grid_item_desktop = true
-    endif
+          {% if section.settings.brand_description != blank %}
+            <div class="modern-footer__desc rte">
+              {{ section.settings.brand_description }}
+            </div>
+          {% endif %}
+        </div>
 
-    if total_blocks == 5
-      assign has_isolated_grid_item_tablet = true
-    endif
-  %}
-  <div
-    class="
-      footer-content
-      spacing-style
-      {% if has_isolated_grid_item_desktop %}footer-content--isolated-grid-item-desktop{% endif %}
-      {% if has_isolated_grid_item_tablet %}footer-content--isolated-grid-item-tablet{% endif %}
-    "
-    style="
-      {%  render 'spacing-style', settings: section.settings %}
-      --footer-gap: {{ section.settings.gap }}px;
-      --grid-columns: {{ grid_columns }};
-      --last-row-count: {{ last_row_count }};
-      --tablet-last-row-count: {{ tablet_last_row_count }};
-    "
-  >
-    {% content_for 'blocks' %}
-  </div>
+        <div class="modern-footer__col modern-footer__products">
+          <p class="modern-footer__heading">{{ section.settings.products_heading | escape }}</p>
+
+          <div class="modern-footer__product-list">
+            {% if products_collection != blank and products_collection.products.size > 0 %}
+              {% for product in products_collection.products limit: 5 %}
+                <a class="modern-footer__product" href="{{ product.url }}">
+                  <div class="modern-footer__product-media">
+                    {% if product.featured_media and product.featured_media.preview_image %}
+                      {{
+                        product.featured_media.preview_image
+                        | image_url: width: 160
+                        | image_tag:
+                          widths: '80, 120, 160',
+                          alt: product.title,
+                          class: 'modern-footer__product-img',
+                          loading: 'lazy'
+                      }}
+                    {% else %}
+                      {{ 'product-apparel-1' | placeholder_svg_tag: 'modern-footer__product-img modern-footer__placeholder' }}
+                    {% endif %}
+                  </div>
+                  <div class="modern-footer__product-meta">
+                    <span class="modern-footer__product-title">{{ product.title }}</span>
+                    <span class="modern-footer__product-price">
+                      {% render 'price', product_resource: product, show_unit_price: false, show_sale_price_first: true %}
+                    </span>
+                  </div>
+                </a>
+              {% endfor %}
+            {% else %}
+              {% for i in (1..5) %}
+                <div class="modern-footer__product" aria-hidden="true">
+                  <div class="modern-footer__product-media">
+                    {{ 'product-apparel-1' | placeholder_svg_tag: 'modern-footer__product-img modern-footer__placeholder' }}
+                  </div>
+                  <div class="modern-footer__product-meta">
+                    <span class="modern-footer__product-title">Featured product</span>
+                    <span class="modern-footer__product-price">$0.00</span>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="modern-footer__col modern-footer__pages">
+          <p class="modern-footer__heading">{{ section.settings.pages_heading | escape }}</p>
+
+          {% if pages_menu != blank and pages_menu.links.size > 0 %}
+            <ul class="modern-footer__links" role="list">
+              {% for link in pages_menu.links %}
+                <li class="modern-footer__link-item">
+                  <a class="modern-footer__link" href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <ul class="modern-footer__links" role="list" aria-hidden="true">
+              <li class="modern-footer__link-item"><span class="modern-footer__link">About</span></li>
+              <li class="modern-footer__link-item"><span class="modern-footer__link">Contact</span></li>
+              <li class="modern-footer__link-item"><span class="modern-footer__link">Shipping</span></li>
+              <li class="modern-footer__link-item"><span class="modern-footer__link">Returns</span></li>
+              <li class="modern-footer__link-item"><span class="modern-footer__link">Privacy policy</span></li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {% liquid
+      assign total_blocks = section.blocks.size
+
+      # Grid layout calculations
+      assign grid_columns = total_blocks | at_most: 4
+
+      # Calculate last row counts using modulo arithmetic
+      # last_row_count = (total_blocks - 1) % N + 1
+      assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
+      assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
+
+      # Check if there are orphaned elements (single item in last row)
+      assign has_isolated_grid_item_desktop = false
+      assign has_isolated_grid_item_tablet = false
+
+      if total_blocks > 4 and last_row_count == 1
+        assign has_isolated_grid_item_desktop = true
+      endif
+
+      if total_blocks == 5
+        assign has_isolated_grid_item_tablet = true
+      endif
+    %}
+    <div
+      class="
+        footer-content
+        spacing-style
+        {% if has_isolated_grid_item_desktop %}footer-content--isolated-grid-item-desktop{% endif %}
+        {% if has_isolated_grid_item_tablet %}footer-content--isolated-grid-item-tablet{% endif %}
+      "
+      style="
+        {%  render 'spacing-style', settings: section.settings %}
+        --footer-gap: {{ section.settings.gap }}px;
+        --grid-columns: {{ grid_columns }};
+        --last-row-count: {{ last_row_count }};
+        --tablet-last-row-count: {{ tablet_last_row_count }};
+      "
+    >
+      {% content_for 'blocks' %}
+    </div>
+  {% endif %}
 </div>
 
 {% stylesheet %}
@@ -88,6 +210,193 @@
     .footer-content--isolated-grid-item-desktop > :last-child {
       grid-column: 1 / -1;
     }
+  }
+
+  .modern-footer {
+    --mf-border: rgb(var(--color-border-rgb) / var(--opacity-20));
+    --mf-muted: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vw, 28px);
+  }
+
+  .modern-footer__quick {
+    border-bottom: 1px solid var(--mf-border);
+    padding-block: 6px;
+  }
+
+  .modern-footer__quick-inner {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-block: 6px;
+  }
+
+  .modern-footer__quick-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .modern-footer__quick-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--mf-border);
+    color: var(--color-foreground);
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: var(--font-size--sm);
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .modern-footer__quick-link:hover {
+    transform: translateY(-1px);
+    border-color: rgb(var(--color-border-rgb) / var(--opacity-40));
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+
+  .modern-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(18px, 3vw, 34px);
+    padding-block: 8px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .modern-footer__grid {
+      grid-template-columns: 1.2fr 1fr 0.9fr;
+      align-items: start;
+    }
+  }
+
+  .modern-footer__brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--color-foreground);
+  }
+
+  .modern-footer__logo {
+    width: min(180px, 55vw);
+    height: auto;
+    object-fit: contain;
+  }
+
+  .modern-footer__brand-text {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    letter-spacing: -0.02em;
+    font-size: var(--font-size--xl);
+  }
+
+  .modern-footer__desc {
+    margin-top: 10px;
+    color: var(--mf-muted);
+    font-size: var(--font-size--sm);
+    line-height: 1.6;
+  }
+
+  .modern-footer__heading {
+    margin: 0 0 10px;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    letter-spacing: -0.01em;
+    font-size: var(--font-size--md);
+  }
+
+  .modern-footer__product-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .modern-footer__product {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-foreground);
+    padding: 8px 10px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-2));
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .modern-footer__product:hover {
+    transform: translateY(-1px);
+    border-color: var(--mf-border);
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+
+  .modern-footer__product-media {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modern-footer__product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .modern-footer__placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .modern-footer__product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .modern-footer__product-title {
+    font-size: var(--font-size--sm);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .modern-footer__product-price {
+    font-size: var(--font-size--xs);
+    color: var(--mf-muted);
+  }
+
+  .modern-footer__links {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .modern-footer__link {
+    display: inline-flex;
+    text-decoration: none;
+    color: var(--mf-muted);
+    padding: 6px 2px;
+    border-radius: 10px;
+    transition: color 180ms ease, background-color 180ms ease;
+  }
+
+  a.modern-footer__link:hover {
+    color: var(--color-foreground);
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
   }
 {% endstylesheet %}
 
@@ -143,6 +452,71 @@
     "groups": ["footer"]
   },
   "settings": [
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "blocks",
+          "label": "Blocks (default)"
+        },
+        {
+          "value": "modern",
+          "label": "Modern 3-column"
+        }
+      ],
+      "default": "blocks"
+    },
+    {
+      "type": "header",
+      "content": "Modern footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_inverse_logo",
+      "label": "Use inverse logo",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "quick_links_label",
+      "label": "Quick links label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "quick_links_menu",
+      "label": "Quick links menu"
+    },
+    {
+      "type": "richtext",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "<p>Girls Cream Cosmetics brings everyday glow with skin-loving formulas, modern shades, and clean, confident beauty.</p>"
+    },
+    {
+      "type": "text",
+      "id": "products_heading",
+      "label": "Products heading",
+      "default": "Featured products"
+    },
+    {
+      "type": "collection",
+      "id": "products_collection",
+      "label": "Products collection"
+    },
+    {
+      "type": "text",
+      "id": "pages_heading",
+      "label": "Pages heading",
+      "default": "Pages"
+    },
+    {
+      "type": "link_list",
+      "id": "pages_menu",
+      "label": "Pages menu"
+    },
     {
       "type": "select",
       "id": "section_width",

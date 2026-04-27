@@ -71,40 +71,85 @@
 >
   <style>
     .modern-unique-card {
-      transition: all 0.3s ease;
-      border-radius: 16px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow:
+        0 1px 1px rgba(15, 23, 42, 0.05),
+        0 10px 30px rgba(15, 23, 42, 0.06);
       display: flex;
       flex-direction: column;
     }
     .modern-unique-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(233, 30, 99, 0.15); /* Pink shadow to match logo */
+      transform: translateY(-4px);
+      border-color: rgba(15, 23, 42, 0.14);
+      box-shadow:
+        0 2px 2px rgba(15, 23, 42, 0.06),
+        0 18px 42px rgba(15, 23, 42, 0.10);
+    }
+    .modern-unique-card:focus-within {
+      border-color: rgba(15, 23, 42, 0.18);
+      box-shadow:
+        0 2px 2px rgba(15, 23, 42, 0.06),
+        0 18px 42px rgba(15, 23, 42, 0.10);
     }
     .modern-unique-card .product-card__content {
-      padding: 15px !important;
+      padding: 14px 14px 16px !important;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
     }
-    /* Force consistent aspect ratio without cropping the product */
+
+    /* Media: max height 300px, no crop (contain) */
     .modern-unique-card .card-gallery {
       width: 100%;
-      aspect-ratio: 1 / 1 !important; /* Force square aspect ratio */
       position: relative;
-      background: #f9f9f9; /* Light background for 'contain' areas */
+      height: 300px;
+      height: min(300px, 70vw);
+      max-height: 300px;
+      background: radial-gradient(120% 120% at 50% 15%, #ffffff 0%, #f6f7fb 50%, #f3f4f6 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
     }
-    .modern-unique-card .product-media, 
-    .modern-unique-card .product-media__image,
-    .modern-unique-card .card-gallery img,
-    .modern-unique-card .slideshow-slide {
-      height: 100% !important;
-      width: 100% !important;
-      object-fit: contain !important; /* Show the FULL image */
-      padding: 10px; /* Give some breathing room so it doesn't touch edges */
-      aspect-ratio: auto !important;
+    .modern-unique-card .card-gallery > a.contents {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    .modern-unique-card .card-gallery :is(slideshow-component, slideshow-container, .slideshow-slide, .product-media-container, .product-media) {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      min-width: 0;
+    }
+    .modern-unique-card .product-media-container {
+      aspect-ratio: auto;
+      max-height: 100%;
+    }
+    .modern-unique-card .product-media-container.media-fit {
+      /* Base theme uses cover for .media-fit; override to prevent cropping */
+      --product-media-fit: contain;
+    }
+    .modern-unique-card img.product-media__image,
+    .modern-unique-card .card-gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    /* Badge polish (Sale) */
+    .modern-unique-card .product-badges__badge {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .modern-unique-card .product-title {
       margin-top: 10px;

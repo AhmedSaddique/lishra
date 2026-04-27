@@ -418,20 +418,62 @@
     /* Set header paddings based on height setting */
     --header-padding: var(--padding-sm);
     --font-paragraph--line-height: 1;
-    --header-content-transition-timing: 0s;
+    --header-content-transition-timing: 0.3s ease; /* Smoother transitions */
 
     display: block;
     contain: layout style;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.8) !important; /* Glass effect */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(233, 30, 99, 0.1); /* Subtle pink border */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 
     a,
     .button,
     .button-secondary,
     .header-actions__action {
       /* reset style from base.css */
-      transition: color var(--header-content-transition-timing), border-color var(--header-content-transition-timing);
+      transition: all var(--header-content-transition-timing);
     }
   }
+
+  .header-logo img {
+    max-height: 40px;
+    transition: transform 0.3s ease;
+  }
+  .header-logo:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Modern underline animation for menu links */
+  .menu-list__link {
+    position: relative;
+    padding: 10px 15px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px;
+  }
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 15px;
+    right: 15px;
+    height: 2px;
+    background: #E91E63; /* Pink accent */
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: right;
+  }
+  .menu-list__link:hover .menu-list__link-title::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .menu-list__link--active .menu-list__link-title::after {
+    transform: scaleX(1);
+  }
+
 
   #header-component :is(.header-menu, .dropdown-localization) {
     display: none;

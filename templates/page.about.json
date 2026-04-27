@@ -1,0 +1,60 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page-about",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Girls Cream Cosmetics",
+        "heading": "Beauty that feels like you",
+        "subheading": "Modern cosmetics made to elevate your everyday routine with confident shades and skin-loving formulas.",
+        "intro": "<p>We believe beauty should be effortless and expressive. Our products are designed for real life: lightweight, buildable, and always comfortable.</p>",
+        "cta_label": "Shop bestsellers",
+        "cta_link": "",
+        "show_stats": true,
+        "stat_1_number": "5+",
+        "stat_1_label": "Years creating everyday essentials",
+        "stat_2_number": "100%",
+        "stat_2_label": "Made to feel comfortable on skin",
+        "stat_3_number": "24/7",
+        "stat_3_label": "Glow-ready for every plan",
+        "padding-block-start": 44,
+        "padding-block-end": 88
+      },
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Skin-first formulas",
+            "text": "Lightweight textures that layer beautifully and feel comfortable all day."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Modern shades",
+            "text": "Wearable colors built for daily looks and special moments."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Designed for real life",
+            "text": "Easy routines, quick touch-ups, and results that look like you."
+          }
+        }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3"]
+    }
+  },
+  "order": ["main"]
+}
+
